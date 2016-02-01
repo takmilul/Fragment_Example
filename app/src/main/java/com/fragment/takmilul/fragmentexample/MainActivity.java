@@ -5,9 +5,10 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.Button;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements View.OnClickListener{
 
    Fragment fragment;
    Button button1;
@@ -25,6 +26,31 @@ public class MainActivity extends AppCompatActivity {
       FragmentManager manager = getSupportFragmentManager();
       FragmentTransaction transaction = manager.beginTransaction();
       transaction.add(R.id.fragment, fragment);
+      transaction.commit();
+
+      button1.setOnClickListener(this);
+      button2.setOnClickListener(this);
+      button3.setOnClickListener(this);
+   }
+
+   @Override
+   public void onClick(View v) {
+      int id = v.getId();
+
+      if(v == button1){
+         fragment = new Fragment1();
+      }
+      else if(v == button2){
+         fragment = new Fragment2();
+      }
+      else
+         fragment = new Fragment3();
+
+      FragmentManager manager = getSupportFragmentManager();
+      FragmentTransaction transaction = manager.beginTransaction();
+      transaction.replace(R.id.fragment, fragment);
+      transaction.addToBackStack(null);
+      transaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
       transaction.commit();
    }
 }
